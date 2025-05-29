@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchow Ads - Earn Money Watching Ads</title>
+    <meta name="description" content="Earn real money by watching advertisements. Join thousands of users earning daily with Watchow Ads.">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Watchow Ads - Earn Money Watching Ads">
+    <meta property="og:description" content="Earn real money by watching advertisements.Join thousands of users earning daily.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK - Modular (v9+) -->
+    <script type="module">
+        // Core Firebase SDK (FirebaseApp)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"; 
+        // Firebase Authentication
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            createUserWithEmailAndPassword, 
+            sendEmailVerification, 
+            signOut, 
+            onAuthStateChanged, 
+            updateProfile, 
+            sendPasswordResetEmail 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // Firebase Firestore
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc,
+            collection, // <-- ADDED
+            addDoc,     // <-- ADDED
+            updateDoc,  // <-- ADDED (will be used by admin panel, good to have here too)
+            query,      // <-- ADDED (for admin panel)
+            where,      // <-- ADDED (for admin panel)
+            getDocs,    // <-- ADDED (for admin panel)
+            orderBy     // <-- ADDED (for admin panel)
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        // Firebase Analytics (optional, uncomment if you want to use it)
+        // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7Jopijukx03cCb3afxis4rNyCwaTfdEU", // YOUR ACTUAL KEY
+            authDomain: "telegram-mini-app-5317d.firebaseapp.com",
+            projectId: "telegram-mini-app-5317d",
+            storageBucket: "telegram-mini-app-5317d.firebasestorage.app",
+            messagingSenderId: "1041950381404",
+            appId: "1:1041950381404:web:b2ba165c91a72cb9db9d99",
+            measurementId: "G-5K039NHVKP" 
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        // Initialize Firebase services
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        // const analytics = getAnalytics(app); // Uncomment if you use Analytics and imported it
+
+        // Expose necessary Firebase services and functions to the global window object
+        window.firebaseApp = app;
+        window.auth = auth;
+        window.db = db;
+        // window.analytics = analytics; 
+
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.sendEmailVerification = sendEmailVerification;
+        window.signOut = signOut;
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.updateProfile = updateProfile;
+        window.sendPasswordResetEmail = sendPasswordResetEmail;
+
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.getDoc = getDoc;
+        window.collection = collection; // <-- EXPOSED
+        window.addDoc = addDoc;         // <-- EXPOSED
+        window.updateDoc = updateDoc;   // <-- EXPOSED
+        window.query = query;           // <-- EXPOSED
+        window.where = where;           // <-- EXPOSED
+        window.getDocs = getDocs;       // <-- EXPOSED
+        window.orderBy = orderBy;       // <-- EXPOSED
+    </script>
+    
+    <!-- Monetag SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='9388838' data-sdk='show_9388838'></script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Landing Page (NO CHANGES HERE - REMAINS THE SAME) -->
+    <div id="landing-page" class="page active">
+        <div class="bg-effects"><div class="floating-orb orb-1"></div><div class="floating-orb orb-2"></div><div class="floating-orb orb-3"></div></div>
+        <header class="header"><div class="container"><div class="logo"><h1>Watchow <span class="gradient-text">Ads</span></h1></div><nav class="nav"><button class="btn btn-outline" onclick="showAuthModal('login')">Sign In</button><button class="btn btn-primary" onclick="showAuthModal('register')">Join Now</button></nav></div></header>
+        <section class="hero"><div class="container"><div class="hero-content"><h2 class="hero-title">Earn Money By<br><span class="gradient-text">Watching Ads</span></h2><p class="hero-subtitle">Join thousands of users earning real money every day by watching engaging advertisements. It's simple, free, and completely legitimate.</p><div class="hero-buttons"><button class="btn btn-large btn-primary" onclick="showAuthModal('register')">🚀 Start Earning Now</button><button class="btn btn-large btn-outline" onclick="scrollToStats()">📊 View Stats</button></div><div class="security-badge">🛡️ 100% Safe & Secure</div></div></div></section>
+        <section id="stats" class="stats"><div class="container"><div class="stats-grid"><div class="stat-card"><div class="stat-icon">💰</div><h3 class="stat-value">Real</h3><p class="stat-label">Money Earned</p></div><div class="stat-card"><div class="stat-icon">👥</div><h3 class="stat-value">50K+</h3><p class="stat-label">Active Users</p></div><div class="stat-card"><div class="stat-icon">⏰</div><h3 class="stat-value">24/7</h3><p class="stat-label">Available</p></div></div></div></section>
+        <section class="how-it-works"><div class="container"><h3 class="section-title">How It Works</h3><p class="section-subtitle">Three simple steps to start earning</p><div class="steps-grid"><div class="step-card"><div class="step-number">1</div><div class="step-icon">👤</div><h4>Sign Up</h4><p>Create your free account with email verification. Takes less than 2 minutes.</p></div><div class="step-card"><div class="step-number">2</div><div class="step-icon">▶️</div><h4>Watch Ads</h4><p>View engaging advertisements and earn money for each completed view.</p></div><div class="step-card"><div class="step-number">3</div><div class="step-icon">💵</div><h4>Get Paid</h4><p>Withdraw your earnings instantly when you reach the minimum threshold.</p></div></div></div></section>
+        <section class="features"><div class="container"><h3 class="section-title">Why Choose Watchow?</h3><p class="section-subtitle">The most trusted platform for earning money online</p><div class="features-grid"><div class="feature-card"><div class="feature-icon">🛡️</div><h4>Secure & Safe</h4><p>Your data is protected with enterprise-grade security.</p></div><div class="feature-card"><div class="feature-icon">⚡</div><h4>Instant Payouts</h4><p>Withdraw your earnings immediately with no delays.</p></div><div class="feature-card"><div class="feature-icon">📱</div><h4>Mobile Friendly</h4><p>Earn money anywhere, anytime on any device.</p></div><div class="feature-card"><div class="feature-icon">🎧</div><h4>24/7 Support</h4><p>Get help whenever you need it from our support team.</p></div></div></div></section>
+        <section class="cta"><div class="container"><h3 class="cta-title">Ready to Start Earning?</h3><p class="cta-subtitle">Join thousands of users who are already earning money by watching engaging advertisements. It's free, easy, and profitable!</p><div class="cta-buttons"><button class="btn btn-large btn-primary" onclick="showAuthModal('register')">⭐ Join Now - It's Free!</button><button class="btn btn-large btn-outline" onclick="showAuthModal('login')">Already a member? Sign In</button></div></div></section>
+    </div>
+    
+    <!-- Dashboard Page (NO CHANGES HERE - REMAINS THE SAME) -->
+    <div id="dashboard-page" class="page">
+        <div class="bg-effects"><div class="floating-orb orb-1"></div><div class="floating-orb orb-2"></div><div class="floating-orb orb-3"></div></div>
+        <header class="dashboard-header"><div class="container"><div class="dashboard-nav"><div class="logo"><h1>Watchow <span class="gradient-text">Ads</span></h1></div><div class="user-menu"><span id="username-display">Welcome back!</span><button class="btn btn-outline btn-small" onclick="logout()">Sign Out</button></div></div></div></header>
+        <main class="dashboard-main"><div class="container"><div class="dashboard-stats"><div class="dashboard-card"><div class="stat-icon">💰</div><div class="stat-content"><p class="stat-label">Current Balance</p><h3 class="stat-value" id="total-earnings">$0.000</h3></div></div><div class="dashboard-card"><div class="stat-icon">🏆</div><div class="stat-content"><p class="stat-label">Lifetime Earnings</p><h3 class="stat-value" id="lifetime-earnings">$0.000</h3></div></div><div class="dashboard-card"><div class="stat-icon">👁️</div><div class="stat-content"><p class="stat-label">Ads Watched</p><h3 class="stat-value" id="total-views">0</h3></div></div><div class="dashboard-card"><div class="stat-icon">📅</div><div class="stat-content"><p class="stat-label">Today's Views</p><h3 class="stat-value" id="today-views">0</h3></div></div></div><div class="dashboard-grid"><div class="dashboard-section"><div class="watch-ad-card"><div class="watch-ad-icon">▶️</div><h3>Ready to Watch an Ad?</h3><p>Each ad view earns you money. Click below to start!</p><button class="btn btn-large btn-primary" id="watch-ad-btn" onclick="watchAd()"><span id="watch-ad-text">▶️ Watch Ad & Earn</span></button></div><div class="activity-card"><h4>Recent Ad Views</h4><div id="activity-list" class="activity-list"><div class="no-activity">👁️ No ad views yet. Start watching to see your activity!</div></div></div><div class="activity-card" id="withdrawal-history-card"><h4>Withdrawal History</h4><div id="withdrawal-history-list" class="activity-list"><div class="no-activity">💸 No withdrawals made yet.</div></div></div></div><div class="dashboard-sidebar"><div class="profile-card"><div class="profile-avatar" id="profile-avatar">U</div><h4 id="profile-username">Username</h4><p id="profile-email">user@example.com</p><div class="profile-badge">🏆 Active Member</div></div><div class="achievements-card"><h4>Achievements</h4><div class="achievements-list"><div class="achievement" id="achievement-100"><div class="achievement-icon">🏆</div><div class="achievement-content"><h5>First 100 Ads</h5><p id="achievement-100-progress">0/100</p></div></div><div class="achievement" id="achievement-streak"><div class="achievement-icon">🔥</div><div class="achievement-content"><h5>7-Day Streak</h5><p id="achievement-streak-progress">0/7 days</p></div></div><div class="achievement" id="achievement-1000"><div class="achievement-icon">💎</div><div class="achievement-content"><h5>1000 Views</h5><p id="achievement-1000-progress">0/1000</p></div></div></div></div><div class="withdrawal-card"><h4>💰 Withdraw Earnings</h4><p>Minimum withdrawal: $2.0</p><button class="btn btn-primary btn-full" id="withdraw-btn" onclick="withdrawEarnings()" disabled>Withdraw Now</button></div></div></div></div></main>
+    </div>
+    
+    <!-- Auth Modal (NO CHANGES HERE - REMAINS THE SAME) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-overlay" onclick="hideAuthModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideAuthModal()">×</button>
+            <div id="login-form" class="auth-form"><div class="auth-header"><div class="auth-icon">▶️</div><h3>Welcome Back!</h3></div><form onsubmit="handleLogin(event)"><div class="form-group"><label for="login-email">Email</label><input type="email" id="login-email" required placeholder="Enter your email"></div><div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" required placeholder="Enter your password"></div><button type="submit" class="btn btn-primary btn-full" id="login-btn">Sign In</button></form><div class="forgot-password"><button type="button" onclick="showForgotPassword()" class="link-btn">Forgot your password?</button></div><div class="auth-switch">Don't have an account? <button type="button" onclick="switchAuthMode('register')" class="link-btn">Sign up</button></div></div>
+            <div id="forgot-password-form" class="auth-form" style="display: none;"><div class="auth-header"><div class="auth-icon">🔑</div><h3>Reset Password</h3></div><form onsubmit="handleForgotPassword(event)"><div class="form-group"><label for="forgot-email">Email</label><input type="email" id="forgot-email" required placeholder="Enter your email address"></div><button type="submit" class="btn btn-primary btn-full" id="forgot-btn">Send Reset Link</button></form><div class="auth-switch">Remember your password? <button type="button" onclick="switchAuthMode('login')" class="link-btn">Sign in</button></div></div>
+            <div id="register-form" class="auth-form" style="display: none;"><div class="auth-header"><div class="auth-icon">👤</div><h3>Join Watchow!</h3></div><form onsubmit="handleRegister(event)"><div class="form-group"><label for="register-username">Username</label><input type="text" id="register-username" required placeholder="Choose a unique username"></div><div class="form-group"><label for="register-email">Email</label><input type="email" id="register-email" required placeholder="Enter your email"></div><div class="form-group"><label for="register-password">Password</label><input type="password" id="register-password" required placeholder="Create a strong password"></div><button type="submit" class="btn btn-primary btn-full" id="register-btn">Create Account</button></form><div class="auth-switch">Already have an account? <button type="button" onclick="switchAuthMode('login')" class="link-btn">Sign in</button></div></div>
+        </div>
+    </div>
+    
+    <div id="toast-container" class="toast-container"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
