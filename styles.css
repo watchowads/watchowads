@@ -1,153 +1,171 @@
-/* ... (Existing styles from your last full styles.css) ... */
+/* styles.css */
 
-/* Level Up Section on Landing Page */
-.level-up {
+/* ... (Your existing styles from the file you provided) ... */
+
+/* NEW STYLES FOR WATCHER RANKS ON LANDING PAGE */
+.watcher-ranks-info {
     position: relative;
     z-index: 10;
-    padding: 6rem 0;
-    background: rgba(15, 23, 42, 0.5); /* Slightly different background */
+    padding: 5rem 0; /* Adjusted padding */
+    background: rgba(15, 23, 42, 0.4); /* Slightly different from how-it-works */
 }
 
-.levels-grid {
+.watcher-ranks-info .section-title {
+    margin-bottom: 1.5rem;
+}
+.watcher-ranks-info .section-subtitle {
+    margin-bottom: 3.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.levels-grid-landing {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
     gap: 2rem;
-    max-width: 1100px;
+    max-width: 1000px; /* Max width for the grid */
     margin: 0 auto;
 }
 
-.level-card {
-    background: rgba(30, 41, 59, 0.7);
-    border: 1px solid rgba(71, 85, 105, 0.5);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
+.level-card-landing {
+    background: rgba(30, 41, 59, 0.6); /* Darker card background */
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    border-radius: 16px; /* Consistent with other cards */
+    padding: 2rem 1.5rem;
     text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.level-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+.level-card-landing:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
-.level-icon {
-    font-size: 3.5rem;
+.level-card-landing-icon {
+    font-size: 3rem; /* Icon size */
     margin-bottom: 1rem;
+    color: #fff; /* Default icon color */
     line-height: 1;
 }
 
-.level-card h4 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: #fff;
-}
+.level-card-landing.iron .level-card-landing-icon { color: #b08d57; } /* Bronze/Iron color */
+.level-card-landing.golden .level-card-landing-icon { color: #ffd700; } /* Gold color */
+.level-card-landing.diamond .level-card-landing-icon { color: #b9f2ff; } /* Diamond color */
 
-.level-card .level-views {
-    font-size: 0.9rem;
-    color: #94a3b8;
+
+.level-card-landing h4 {
+    font-size: 1.5rem; /* Rank name size */
+    font-weight: 700;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    color: #ffffff;
 }
 
-.level-card .level-rate {
-    font-size: 1.1rem;
-    color: #e2e8f0;
+.level-card-landing .level-views-landing {
+    font-size: 0.85rem;
+    color: #94a3b8; /* Lighter text for secondary info */
+    margin-bottom: 0.75rem;
+}
+
+.level-card-landing .level-rate-landing {
+    font-size: 1rem;
+    color: #e2e8f0; /* Main rate text */
     margin-bottom: 1rem;
-    font-weight: 600;
 }
-
-.level-card .rate-highlight {
-    /* background: linear-gradient(135deg, #10b981, #059669);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text; */
-    color: #10b981; /* Simpler highlight */
+.level-card-landing .level-rate-landing strong {
+    color: #10b981; /* Highlight color for rate */
     font-weight: 700;
 }
 
-.level-card .level-desc {
-    font-size: 0.95rem;
-    color: #cbd5e1;
-    line-height: 1.6;
+
+.level-card-landing .level-desc-landing {
+    font-size: 0.9rem;
+    color: #cbd5e1; /* Description text */
+    line-height: 1.5;
+    flex-grow: 1; /* Allows cards to have same height if content differs */
 }
 
-/* Specific Level Card Styling */
-.level-card.seeker { border-left: 5px solid #cd7f32; /* Bronze-ish */ }
-.level-card.explorer { border-left: 5px solid #c0c0c0; /* Silver-ish */ }
-.level-card.master { border-left: 5px solid #ffd700; /* Gold-ish */ }
-
-/* User Rank Display on Dashboard */
-.rank-display-card {
-    background: rgba(30, 41, 59, 0.6);
-    border: 1px solid rgba(71, 85, 105, 0.4);
-    border-radius: 16px;
-    padding: 1.5rem;
+/* NEW STYLES FOR USER RANK DISPLAY ON DASHBOARD */
+.dashboard-rank-card {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem; /* Add some space below it */
+    gap: 1rem; /* Space between icon and info */
+    padding: 1rem 1.5rem;
+    background: rgba(30, 41, 59, 0.6); /* Consistent with other dashboard cards */
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    border-radius: 12px; /* Consistent radius */
+    margin-bottom: 1.5rem; /* Space below this card */
     color: #e2e8f0;
 }
 
-.rank-icon {
-    font-size: 3rem; /* Larger icon */
-    width: 70px;
-    height: 70px;
+.rank-card-icon {
+    font-size: 2.5rem; /* Icon size */
+    width: 50px; /* Icon container size */
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6); /* Default icon background */
     color: #fff;
     font-weight: bold;
     flex-shrink: 0;
-}
-/* Specific rank icons if needed */
-.rank-icon.seeker-icon { background: linear-gradient(135deg, #cd7f32, #a0522d); }
-.rank-icon.explorer-icon { background: linear-gradient(135deg, #c0c0c0, #a9a9a9); }
-.rank-icon.master-icon { background: linear-gradient(135deg, #ffd700, #e6c300); }
-
-
-.rank-info {
-    flex-grow: 1;
+    /* Default background, will be overridden by JS if specific class is added */
+    background: linear-gradient(135deg, #475569, #334155); 
 }
 
-.rank-info h4 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
+/* Specific rank icon backgrounds (JS will add these classes) */
+.rank-card-icon.iron { background: linear-gradient(135deg, #b08d57, #8c6f47); }
+.rank-card-icon.golden { background: linear-gradient(135deg, #ffd700, #ccac00); }
+.rank-card-icon.diamond { background: linear-gradient(135deg, #b9f2ff, #87d7e8); }
+
+.rank-card-info {
+    flex-grow: 1; /* Takes remaining space */
+}
+
+.rank-card-info h4 { /* For #dashboard-rank-name */
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
     color: #fff;
 }
 
-.rank-info #rank-progress-text {
-    font-size: 0.85rem;
-    color: #94a3b8;
-    margin-bottom: 0.75rem;
-}
-
-.progress-bar-rank {
+.rank-card-progress-bar-container {
     width: 100%;
-    height: 10px;
-    background-color: rgba(71, 85, 105, 0.5); /* Darker background for progress bar */
-    border-radius: 5px;
+    height: 8px; /* Progress bar height */
+    background-color: rgba(71, 85, 105, 0.6); /* Darker background */
+    border-radius: 4px;
     overflow: hidden;
+    margin-bottom: 0.25rem;
 }
 
-.progress-fill-rank {
+.rank-card-progress-fill { /* For #dashboard-rank-progress-fill */
     height: 100%;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6); /* Default progress fill */
-    width: 0%; /* Will be set by JS */
-    border-radius: 5px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6); /* Default fill */
+    width: 0%; /* Set by JS */
+    border-radius: 4px;
     transition: width 0.5s ease-in-out;
 }
-.progress-fill-rank.seeker-fill { background: linear-gradient(90deg, #cd7f32, #a0522d); }
-.progress-fill-rank.explorer-fill { background: linear-gradient(90deg, #c0c0c0, #a9a9a9); }
-.progress-fill-rank.master-fill { background: linear-gradient(90deg, #ffd700, #e6c300); }
+/* Specific rank progress bar fills (JS will add these classes if needed, or just use default) */
+.rank-card-progress-fill.iron { background: linear-gradient(90deg, #b08d57, #8c6f47); }
+.rank-card-progress-fill.golden { background: linear-gradient(90deg, #ffd700, #ccac00); }
+.rank-card-progress-fill.diamond { background: linear-gradient(90deg, #b9f2ff, #87d7e8); }
 
 
-/* Ensure hero button for levels works */
-.hero-buttons button {
-    margin-bottom: 0.5rem; /* Add some space if they wrap */
+.rank-card-info #dashboard-rank-progress-text {
+    font-size: 0.8rem;
+    color: #94a3b8; /* Lighter text for progress */
+    margin: 0;
+}
+
+/* Adjust hero button if it was changed for scrolling to levels */
+.hero-buttons button.btn-large.btn-outline {
+    /* Ensure it looks good alongside the primary button */
+}
+
+/* Make sure the scroll target is identifiable */
+#watcher-ranks-section {
+    /* This ID is used by scrollToElement */
 }
