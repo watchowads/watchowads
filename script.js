@@ -12,7 +12,7 @@ let userStats = {
     adHistory: [],
     withdrawalHistory: [],
     currentLevel: 1,
-    levelName: "Iron Watcher" // Default for new users
+    levelName: "Iron Watcher" 
 };
 
 const MINIMUM_WITHDRAWAL_AMOUNT = 2.0;
@@ -25,16 +25,9 @@ const WATCHER_RANKS = {
 };
 const MAX_LEVEL = Object.keys(WATCHER_RANKS).length;
 
-// In-App Interstitial configuration
 const IN_APP_INTERSTITIAL_SETTINGS = {
   type: 'inApp',
-  inAppSettings: {
-    frequency: 2,    // Show 2 ads
-    capping: 0.1,    // within 0.1 hours (6 minutes)
-    interval: 30,    // with a 30-second interval
-    timeout: 5,      // 5-second delay before the first
-    everyPage: false // Session saved (false means it respects capping/freq across "session")
-  }
+  inAppSettings: { frequency: 2, capping: 0.1, interval: 30, timeout: 5, everyPage: false }
 };
 let inAppInterstitialShownThisSession = false;
 
@@ -71,8 +64,8 @@ function showLandingPage() {
 function showDashboard() {
     document.getElementById('landing-page').classList.remove('active');
     document.getElementById('dashboard-page').classList.add('active');
-    updateUserLevel(); // Ensure level is up-to-date based on loaded stats
-    updateDashboard(); // Display everything
+    updateUserLevel();
+    updateDashboard();
 
     if (typeof window.show_9388838 === 'function' && !inAppInterstitialShownThisSession) {
         console.log("Monetag: Attempting to show In-App Interstitial...");
@@ -94,8 +87,8 @@ function scrollToElement(elementId) {
         console.warn(`Element with ID '${elementId}' not found for scrolling.`);
     }
 }
-function scrollToStats() { // This is linked from your hero button "View Stats"
-    scrollToElement('stats'); // Or 'watcher-ranks-section' if you prefer that for the other button
+function scrollToStats() { // Original button scrolls to 'stats'
+    scrollToElement('stats'); 
 }
 
 
@@ -152,8 +145,8 @@ async function loadUserData() {
                 lastAdWatch: data.lastAdWatch || null,
                 adHistory: data.adHistory || [],
                 withdrawalHistory: data.withdrawalHistory || [],
-                currentLevel: data.currentLevel || 1, 
-                levelName: data.levelName || "Iron Watcher" 
+                currentLevel: data.currentLevel || 1,
+                levelName: data.levelName || "Iron Watcher"
             };
         } else {
             userStats = {
@@ -163,9 +156,9 @@ async function loadUserData() {
                 currentLevel: 1, levelName: "Iron Watcher"
             };
         }
-        updateUserLevel(); // Recalculate level based on totalViews, ensuring consistency
+        updateUserLevel(); 
         if (!docSnap.exists() || docSnap.data().currentLevel !== userStats.currentLevel || docSnap.data().levelName !== userStats.levelName) {
-            await saveUserData(); // Save if new user or if calculated level/name differs
+            await saveUserData(); 
         }
     } catch (error) {
         console.error("Error loading user data from Firestore:", error);
@@ -184,7 +177,7 @@ async function saveUserData() {
     if (!currentUser || !window.db) return;
     userStats.username = userStats.username || currentUser.displayName || currentUser.email.split('@')[0];
     userStats.email = userStats.email || currentUser.email;
-    if (typeof userStats.currentLevel === 'undefined') { // Ensure level info is set
+    if (typeof userStats.currentLevel === 'undefined') { 
         updateUserLevel();
     }
     const userDocRef = window.doc(window.db, "users", currentUser.uid);
@@ -210,21 +203,19 @@ function updateDashboard() {
     document.getElementById('total-views').textContent = userStats.totalViews.toLocaleString();
     document.getElementById('today-views').textContent = userStats.todayViews;
 
-    // Update User Rank Display on Dashboard
-    const rankNameEl = document.getElementById('dashboard-rank-name');
-    const rankIconEl = document.getElementById('dashboard-rank-icon');
-    const rankProgressTextEl = document.getElementById('dashboard-rank-progress-text');
-    const rankProgressFillEl = document.getElementById('dashboard-rank-progress-fill');
+    // --- USER RANK DISPLAY UPDATE ---
+    const rankIconEl = document.getElementById('dashboard-rank-icon-element'); 
+    const rankNameEl = document.getElementById('dashboard-rank-name-element'); 
+    const rankProgressTextEl = document.getElementById('dashboard-rank-progress-text-element'); 
+    const rankProgressFillEl = document.getElementById('dashboard-rank-progress-fill-element'); 
 
-    if (rankNameEl && rankIconEl && rankProgressTextEl && rankProgressFillEl) {
+    if (rankIconEl && rankNameEl && rankProgressTextEl && rankProgressFillEl) {
         const rank = WATCHER_RANKS[userStats.currentLevel];
         rankIconEl.textContent = rank.icon;
-        // Add color class for icon background based on rank
-        rankIconEl.className = `rank-card-icon ${rank.colorClass}`; 
+        rankIconEl.className = `rank-card-icon ${rank.colorClass}`; // Apply color class for background
         rankNameEl.textContent = `Rank: ${rank.name}`;
         
-        // Add color class for progress bar fill
-        rankProgressFillEl.className = `rank-card-progress-fill ${rank.colorClass}`;
+        rankProgressFillEl.className = `rank-card-progress-fill ${rank.colorClass}`; // Apply color to fill
 
         if (userStats.currentLevel < MAX_LEVEL) {
             const viewsForNextRank = WATCHER_RANKS[userStats.currentLevel + 1].viewsNeeded;
@@ -240,8 +231,9 @@ function updateDashboard() {
             rankProgressTextEl.textContent = "Max Rank Achieved! 🎉";
         }
     } else {
-        console.warn("Dashboard rank display elements not found. Skipping rank UI update.");
+        console.warn("One or more dashboard rank display elements not found. UI for rank will not be updated.");
     }
+    // --- END USER RANK DISPLAY UPDATE ---
 
     updateAchievements();
 
@@ -288,15 +280,16 @@ async function watchAd() {
     try {
         if (typeof window.show_9388838 === 'function') {
             console.log("Monetag: Calling show_9388838() for rewarded ad...");
-            await window.show_9388838(); // This is for the main rewarded ad (Promise based)
+            // For the main rewarded ad, call it without arguments to get the Promise
+            await window.show_9388838(); 
             console.log("Monetag: Promise from rewarded ad show_9388838() resolved.");
 
             const currentRank = WATCHER_RANKS[userStats.currentLevel];
             const targetAveragePerAd = currentRank.ratePer1000Views / currentRank.earningDivisor;
             
-            const randomVarianceFactor = (Math.random() - 0.5) * 0.6; // +/- 30% variance
+            const randomVarianceFactor = (Math.random() - 0.5) * 0.6; 
             let earnings = targetAveragePerAd * (1 + randomVarianceFactor);
-            earnings = Math.max(targetAveragePerAd * 0.5, earnings); // Minimum 50% of target
+            earnings = Math.max(targetAveragePerAd * 0.5, earnings); 
             earnings = parseFloat(earnings.toFixed(5));
 
             userStats.totalEarnings += earnings;
